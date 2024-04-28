@@ -5,6 +5,8 @@
 // https://opensource.org/licenses/MIT.
 
 using System.Collections;
+//using Codice.Client.GameUI.Explorer;
+//using Codice.Client.GameUI.Explorer;
 using UnityEngine;
 
 using Mediapipe.Tasks.Vision.FaceLandmarker;
@@ -16,6 +18,7 @@ namespace Mediapipe.Unity.Sample.FaceLandmarkDetection
   public class FaceLandmarkerRunner : VisionTaskApiRunner<FaceLandmarker>
   {
     [SerializeField] private FaceLandmarkerResultAnnotationController _faceLandmarkerResultAnnotationController;
+    [SerializeField] private FaceBlendshapeResultController _faceBlendshapeResultController;
 
     private Experimental.TextureFramePool _textureFramePool;
 
@@ -105,7 +108,7 @@ namespace Mediapipe.Unity.Sample.FaceLandmarkDetection
             taskApi.DetectAsync(image, (int)GetCurrentTimestampMillisec(), imageProcessingOptions);
             break;
         }
-
+        
         textureFrame.Release();
       }
     }
@@ -113,6 +116,7 @@ namespace Mediapipe.Unity.Sample.FaceLandmarkDetection
     private void OnFaceLandmarkDetectionOutput(FaceLandmarkerResult result, Image image, int timestamp)
     {
       _faceLandmarkerResultAnnotationController.DrawLater(result);
+      _faceBlendshapeResultController.DrawLater(result);
     }
   }
 }

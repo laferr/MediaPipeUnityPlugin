@@ -17,6 +17,7 @@ namespace Mediapipe.Unity.Sample.Holistic
     [SerializeField] private PoseWorldLandmarkListAnnotationController _poseWorldLandmarksAnnotationController;
     [SerializeField] private MaskAnnotationController _segmentationMaskAnnotationController;
     [SerializeField] private NormalizedRectAnnotationController _poseRoiAnnotationController;
+    [SerializeField] private MediaPipePoseSolver _mediaPipePoseSolver;
 
     public HolisticTrackingGraph.ModelComplexity modelComplexity
     {
@@ -130,6 +131,7 @@ namespace Mediapipe.Unity.Sample.Holistic
     private void OnFaceLandmarksOutput(object stream, OutputEventArgs<NormalizedLandmarkList> eventArgs)
     {
       _holisticAnnotationController.DrawFaceLandmarkListLater(eventArgs.value);
+      _mediaPipePoseSolver.normalizedLandmarkList = eventArgs.value;
     }
 
     private void OnPoseLandmarksOutput(object stream, OutputEventArgs<NormalizedLandmarkList> eventArgs)

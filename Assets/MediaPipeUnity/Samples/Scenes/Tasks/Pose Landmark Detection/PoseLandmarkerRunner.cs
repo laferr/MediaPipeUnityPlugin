@@ -16,8 +16,9 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
   public class PoseLandmarkerRunner : VisionTaskApiRunner<PoseLandmarker>
   {
     [SerializeField] private PoseLandmarkerResultAnnotationController _poseLandmarkerResultAnnotationController;
-
+    //[SerializeField] private PoseLandmarkerResultController _poseLandmarkerResultContoller;
     private Experimental.TextureFramePool _textureFramePool;
+    public SpeedEstimator _speedEstimator;
 
     public readonly PoseLandmarkDetectionConfig config = new PoseLandmarkDetectionConfig();
 
@@ -101,6 +102,7 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
           case RunningMode.VIDEO:
             result = taskApi.DetectForVideo(image, (int)GetCurrentTimestampMillisec(), imageProcessingOptions);
             _poseLandmarkerResultAnnotationController.DrawNow(result);
+            _speedEstimator.GetKeyPoints(result);
             break;
           case RunningMode.LIVE_STREAM:
             taskApi.DetectAsync(image, (int)GetCurrentTimestampMillisec(), imageProcessingOptions);
@@ -111,6 +113,12 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
       }
     }
 
-    private void OnPoseLandmarkDetectionOutput(PoseLandmarkerResult result, Image image, int timestamp) => _poseLandmarkerResultAnnotationController.DrawLater(result);
+    private void OnPoseLandmarkDetectionOutput(PoseLandmarkerResult result, Image image, int timestamp)
+    {
+      _poseLandmarkerResultAnnotationController.DrawLater(result);
+      _speedEstimator.GetKeyPoints(result);
+      //_poseLandmarkerResultContoller.DrawLater(result);
+    }
+    
   }
 }

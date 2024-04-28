@@ -16,7 +16,7 @@ namespace Mediapipe.Unity.Sample.FaceMesh
     [SerializeField] private MultiFaceLandmarkListAnnotationController _multiFaceLandmarksAnnotationController;
     [SerializeField] private NormalizedRectListAnnotationController _faceRectsFromLandmarksAnnotationController;
     [SerializeField] private NormalizedRectListAnnotationController _faceRectsFromDetectionsAnnotationController;
-
+    [SerializeField] private EyeBlinkInputSolution _eyeBlinkInputSolution;
     public int maxNumFaces
     {
       get => graphRunner.maxNumFaces;
@@ -83,6 +83,7 @@ namespace Mediapipe.Unity.Sample.FaceMesh
       _multiFaceLandmarksAnnotationController.DrawNow(multiFaceLandmarks);
       _faceRectsFromLandmarksAnnotationController.DrawNow(faceRectsFromLandmarks);
       _faceRectsFromDetectionsAnnotationController.DrawNow(faceRectsFromDetections);
+      _eyeBlinkInputSolution.CalcNow(multiFaceLandmarks);
     }
 
     private void OnFaceDetectionsOutput(object stream, OutputEventArgs<List<Detection>> eventArgs)
@@ -93,6 +94,7 @@ namespace Mediapipe.Unity.Sample.FaceMesh
     private void OnMultiFaceLandmarksOutput(object stream, OutputEventArgs<List<NormalizedLandmarkList>> eventArgs)
     {
       _multiFaceLandmarksAnnotationController.DrawLater(eventArgs.value);
+      _eyeBlinkInputSolution.CalcNow(eventArgs.value);
     }
 
     private void OnFaceRectsFromLandmarksOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)

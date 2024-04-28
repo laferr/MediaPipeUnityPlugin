@@ -5,6 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Global Resource
+  - Obstacle
+  - Coin
+  - Bullet
+  - Enemy
+  - HoldButton
+  - PowerUp
+  - PlayerEyes
+  - LeftBall
+  - RightBall
   layers:
   - Default
   - TransparentFX

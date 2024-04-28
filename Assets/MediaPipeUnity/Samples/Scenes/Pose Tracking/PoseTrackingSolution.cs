@@ -17,6 +17,9 @@ namespace Mediapipe.Unity.Sample.PoseTracking
     [SerializeField] private PoseWorldLandmarkListAnnotationController _poseWorldLandmarksAnnotationController;
     [SerializeField] private MaskAnnotationController _segmentationMaskAnnotationController;
     [SerializeField] private NormalizedRectAnnotationController _roiFromLandmarksAnnotationController;
+    [SerializeField] private JumpingCountSolution _poseLandmarkerResultContoller;
+    [SerializeField] private DefenceSolution _DposeLandmarkerResultContoller;
+    [SerializeField] private WebcamUISystem _poseLandmarkerUIController;
 
     public PoseTrackingGraph.ModelComplexity modelComplexity
     {
@@ -107,6 +110,7 @@ namespace Mediapipe.Unity.Sample.PoseTracking
       _poseWorldLandmarksAnnotationController.DrawNow(poseWorldLandmarks);
       _segmentationMaskAnnotationController.DrawNow(segmentationMask);
       _roiFromLandmarksAnnotationController.DrawNow(roiFromLandmarks);
+
     }
 
     private void OnPoseDetectionOutput(object stream, OutputEventArgs<Detection> eventArgs)
@@ -117,6 +121,18 @@ namespace Mediapipe.Unity.Sample.PoseTracking
     private void OnPoseLandmarksOutput(object stream, OutputEventArgs<NormalizedLandmarkList> eventArgs)
     {
       _poseLandmarksAnnotationController.DrawLater(eventArgs.value);
+      if(_poseLandmarkerResultContoller != null)
+      {
+        _poseLandmarkerResultContoller.DrawLater(eventArgs.value);
+      }
+      if (_DposeLandmarkerResultContoller != null)
+      {
+        _DposeLandmarkerResultContoller.DrawLater(eventArgs.value);
+      }
+      if (_poseLandmarkerUIController != null)
+      {
+        _poseLandmarkerUIController.DrawLater(eventArgs.value);
+      }
     }
 
     private void OnPoseWorldLandmarksOutput(object stream, OutputEventArgs<LandmarkList> eventArgs)

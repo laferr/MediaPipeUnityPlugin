@@ -3,7 +3,7 @@ Shader "Unlit/MediaPipe/Unmask Shader"
     Properties
     {
         _MainTex ("Main Texture", 2D) = "" {}
-        _MaskTex ("Mask Texture", 2D) = "blue" {}
+        _MaskTex ("Mask Texture", 2D) = "" {}
         _Width ("Mask Width", Int) = 0
         _Height ("Mask Height", Int) = 0
         _Threshold ("Threshold", Range(0.0, 1.0)) = 0.9
